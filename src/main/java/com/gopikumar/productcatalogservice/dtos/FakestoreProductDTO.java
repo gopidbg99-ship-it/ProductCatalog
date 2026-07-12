@@ -14,7 +14,7 @@ public class FakestoreProductDTO {
     private String description;
     private String image;
     private Double price;
-    private String category;
+    private CategoryDTO category;
 
    public Product from(FakestoreProductDTO fakestoreProductDTO){
        Product product=new Product();
@@ -24,9 +24,9 @@ public class FakestoreProductDTO {
        product.setInageUrl(fakestoreProductDTO.getImage());
        product.setPrice(fakestoreProductDTO.getPrice());
        Category category=new Category();
-       category.setName(fakestoreProductDTO.getCategory());
-       product.setCategory(category);
-
+       category.setName(String.valueOf(fakestoreProductDTO.getCategory()));
+       product.setCategory( category);
+       System.out.println("Image = " + fakestoreProductDTO.getImage());
        return  product;
 
 
