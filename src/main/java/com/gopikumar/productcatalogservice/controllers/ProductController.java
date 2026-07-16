@@ -3,6 +3,7 @@ package com.gopikumar.productcatalogservice.controllers;
 import com.gopikumar.productcatalogservice.dtos.ProductDTO;
 import com.gopikumar.productcatalogservice.models.Product;
 import com.gopikumar.productcatalogservice.services.IProductServices;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,7 @@ public class ProductController {
     private final RestTemplate restTemplate;
     IProductServices productServices;
 
-    public ProductController(IProductServices iProductServices, RestTemplate restTemplate) {
+    public ProductController(@Qualifier("StorageProductService") IProductServices iProductServices, RestTemplate restTemplate) {
         this.productServices = iProductServices;
         this.restTemplate = restTemplate;
     }
@@ -27,8 +28,10 @@ public class ProductController {
     ProductDTO CreateProduct(@RequestBody ProductDTO productDTO){
 
         ProductDTO productResponseDTO=new ProductDTO();
-      Product product=new Product();
-        productServices.createProduct(product);
+        Product product1 = productServices.createProduct(productDTO.convertToProduct(productDTO));
+      if(product1!=null){
+          return product1.covert();
+      }
     return productResponseDTO;
     }
 
